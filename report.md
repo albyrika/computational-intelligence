@@ -4,4 +4,7 @@
 - - the code is just a python review, plus the solution of set-covering problem
 
 - 19/10/23 lesson/python exercises with Calabrese (Finley in the first slide)
-- - 
+- - started to work on homework (101023_sol)
+
+- 21/10/23 working on homework (101023_sol)
+- - adding functions to take actions in a certain order + 'automatic' tiles
