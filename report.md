@@ -8,3 +8,6 @@
 
 - 21/10/23 working on homework (101023_sol)
 - - adding functions to take actions in a certain order + 'automatic' tiles
+
+- 23/10/23 working again on homework (101023_sol)
+- - tried another function for computing h (distance_)
