@@ -51,6 +51,15 @@
 
         #print(nmissing, MAX_COVER, '->' , nmissing / MAX_COVER)
         return len(state.taken) + ceil(nmissing / max_cover)
- ``` 
+ ```
+
+- 29/10/23
+- - working on halloween challenge
+- - first i need to understand scipy lil_array
+
+- 30/10/23
+- - finished working on halloween challenge
+- - still need some tweaks
+
 
  
