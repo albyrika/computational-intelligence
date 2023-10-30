@@ -1,13 +1,13 @@
-### This is the report for 01URROV - computational intelligence 2023/2024 by s309141
+## This is the report for 01URROV - computational intelligence 2023/2024 by s309141
 
-- 16/10/23 created this repository, with the code produced by now and this report
-- - the code is just a python review, plus the solution of set-covering problem
+### 16/10/23 created this repository, with the code produced by now and this report
+-  the code is just a python review, plus the solution of set-covering problem
 
-- 19/10/23 lesson/python exercises with Calabrese (Finley in the first slide)
-- - started to work on homework (101023_sol)
+### 19/10/23 lesson/python exercises with Calabrese (Finley in the first slide)
+-  started to work on homework (101023_sol)
 
-- 21/10/23 working on homework (101023_sol)
-- - adding functions to take actions in a certain order + 'automatic' tiles
+### 21/10/23 working on homework (101023_sol)
+-  adding functions to take actions in a certain order + 'automatic' tiles
  ```
     # function to take actions in order -> i want sets that have a lot of valuable tiles 
     #   -> compute sum over columns in which it is True / sum over row
@@ -38,8 +38,8 @@
             s = State(s.taken | {index}, s.not_taken - {index})
  ``` 
 
-- 23/10/23 working again on homework (101023_sol)
-- - tried another function for computing h (distance_)
+### 23/10/23 working again on homework (101023_sol)
+-  tried another function for computing h (distance_)
  ```
     #another G + H function, considers as distance to goal the sum of missing tiles divided by the max number of tiles in a set 
     def distance_(state):   
@@ -53,13 +53,53 @@
         return len(state.taken) + ceil(nmissing / max_cover)
  ```
 
-- 29/10/23
-- - working on halloween challenge
-- - first i need to understand scipy lil_array
+### 29/10/23
+- working on halloween challenge
+- first i need to understand scipy lil_array
 
-- 30/10/23
-- - finished working on halloween challenge
-- - still need some tweaks
+### 30/10/23
+- finished working on halloween challenge
+- still need some tweaks
+- did a pretty job with 1 + lambda
+ ```
+    def tweak3(sets, solution): 
+        mutation1 = copy(solution)
+        mutation1.append(randint(0, sets.shape[0]-1))
+        f1 = fitness(sets, mutation1)
+        if len(mutation1) == 1:
+            return mutation1, f1
+        
+        mutation2 = copy(solution)    
+        mutation2[randint(0, len(mutation2) - 1)] = randint(0, sets.shape[0]-1) 
+        f2 = fitness(sets, mutation2)
+
+        mutation3 = copy(solution)
+        mutation3.pop(randint(0, len(mutation3) - 1)) 
+        f3 = fitness(sets, mutation3)
+
+        if(f1 >= f2 and f1 >= f3):
+            return mutation1, f1
+        if(f2 >= f1 and f2 >= f3):
+            return mutation2, f2  
+        return mutation3, f3
+
+    tweak = tweak3
+
+    for sets in problems:
+        solution = []
+        fitness_prev = fitness(sets, solution)
+        it = 0
+        print(fitness_prev, '->', end=' ')
+
+        while(fitness_prev[0] != 0):
+            it += 1
+            mutation, fitness_new = tweak(sets, solution)
+            if fitness_new >= fitness_prev:
+                fitness_prev = fitness_new
+                solution = mutation  
+        print(fitness_prev, '\n', solution)
+        print('called fitness function', it*3, 'times', end = '\n\n')
+ ```
 
 
  
