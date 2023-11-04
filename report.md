@@ -100,6 +100,33 @@
         print(fitness_prev, '\n', solution)
         print('called fitness function', it*3, 'times', end = '\n\n')
  ```
+### implemented a stupid but fast algorithm for halloween
+ - 6 fitness calls in worst case, nice
+  ```
+  def sorted_sets(sets):
+    tile_rarities = sets.sum(axis = 0)
+    sets_richness = sets.sum(axis = 1)
+    #i like if if: lot of tiles, tiles are rare -> small number ( sum of sets that have that tile / number of tiles )
+    strengths = []
+    for i in range(sets.shape[0]):
+        strengths.append( (sets[[i], :] * tile_rarities).sum() / sets_richness[i])
+    return sorted(list(range(sets.shape[0])), key = lambda i: strengths[i])
+    
 
+for sets in problems:
+    s_sorted = sorted_sets(sets)
+    
+    solution = []
+    fitness_prev = fitness(sets, solution)
+    it = 0
+    print(fitness_prev, '->', end=' ')
+
+    while(fitness_prev[0] != 0):
+        solution = s_sorted[0 : 2**it]
+        fitness_prev = fitness(sets, solution)
+        it += 1      
+    print(fitness_prev, '\n', solution)
+    print('called fitness function', it, 'times', end = '\n\n')
+  ```
 
  
