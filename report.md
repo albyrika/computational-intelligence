@@ -130,6 +130,10 @@
  ```
 
 ### 6/11/23
- - working on nim game, first need to understand
+ - working on nim game, first need to understand how it works
+
+### 7/11/23
+ - added a tweak to last hallowen cahllenge solution
+ - works by picking a minimum number of good sets
    
  
