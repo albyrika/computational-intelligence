@@ -137,5 +137,7 @@
    
 ### 9/11/23
  - lab2, finished making the adaptive class
+ - made another optimal strategy (for real)
+ - the evolution works like a charm
 
  
