@@ -110,8 +110,7 @@
         strengths = []
         for i in range(sets.shape[0]):
             strengths.append( (sets[[i], :] * tile_rarities).sum() / sets_richness[i])
-        return sorted(list(range(sets.shape[0])), key = lambda i: strengths[i])
-        
+        return sorted(list(range(sets.shape[0])), key = lambda i: strengths[i])   
 
     for sets in problems:
         s_sorted = sorted_sets(sets)
@@ -136,4 +135,7 @@
  - added a tweak to last hallowen cahllenge solution
  - works by picking a minimum number of good sets
    
+### 9/11/23
+ - lab2, finished making the adaptive class
+
  
