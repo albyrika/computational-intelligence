@@ -140,4 +140,8 @@
  - made another optimal strategy (for real)
  - the evolution works like a charm
 
+### 12/11/23
+ - lab2, the optimal_ was not working every time, as pointed out by Ludovico Firio
+ - implemented a real optimal strategy, following the one provided by Wikipedia 
+
  
