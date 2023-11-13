@@ -10,7 +10,7 @@
 
 ## 2.2
  The adaptive class can adapt its genome and follow the 1/5 rule 
-
+ The self adaptive class can also adapt its standard deviation
 
 
 

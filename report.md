@@ -142,6 +142,11 @@
 
 ### 12/11/23
  - lab2, the optimal_ was not working every time, as pointed out by Ludovico Firio
- - implemented a real optimal strategy, following the one provided by Wikipedia 
+ - implemented a real optimal strategy, following the one provided by Wikipedia
+
+### 13/11/23
+ - implemented a self-adaptive class (the variance is a mutable parameter)
+ - removed unused code, put some better explainations in the markdown
+
 
  
