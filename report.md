@@ -148,5 +148,9 @@
  - implemented a self-adaptive class (the variance is a mutable parameter)
  - removed unused code, put some better explainations in the markdown
 
+### 16/11/23
+ - so, looks like i was very confused about dynamic strategies and ES
+ - implementing a working ES
+ - also changed the getratio to be more general and play against different opponents (yanked the idea from the presentation in class)
 
  

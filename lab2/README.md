@@ -6,11 +6,11 @@
  The 'optimal strategy' uses exploration of the state
 
 ## 2.1
- Implemented a real_optimal using the strategy for misère variant
-
+ Implemented a real_optimal using the strategy for misère variant (from wikipedia)
+ 
 ## 2.2
- The adaptive class can adapt its genome and follow the 1/5 rule 
- The self adaptive class can also adapt its standard deviation
+ The adaptive class can adapt the strategy to be used, and works in an ES startegy
+ The self adaptive class can adapt its standard deviation (it is a dynamic hill climber)
 
 
 
