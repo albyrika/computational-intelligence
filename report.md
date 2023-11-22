@@ -153,4 +153,6 @@
  - implementing a working ES
  - also changed the getratio to be more general and play against different opponents (yanked the idea from the presentation in class)
 
- 
+ ### 22/11/23
+  - reviewed lab2 of Umberto Fontanazza and Ludovico Fiorio
+  - with Ludovico Fiorio, pointed out the non optimality of the optimal strategy proposed by the assistant
