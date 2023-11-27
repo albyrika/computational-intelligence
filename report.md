@@ -153,4 +153,10 @@
  - implementing a working ES
  - also changed the getratio to be more general and play against different opponents (yanked the idea from the presentation in class)
 
+### 23/11/23
+ - reviewed lab2 code to Umberto Fontanazza and Ludovico Fiorio
+
+### 27/11/23
+ - added lab9 folder and files, started working on them
+
  
