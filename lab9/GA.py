@@ -17,6 +17,19 @@ class Individual:
     def compute_fitness(self) -> None:
         self.fitness = self.fitness_function(self.genome)
 
+    def hillclimb(self, off: int, fitness, nmutations: int):
+        """try to hill climb 1+1 for a while"""
+        since_last_improvement = 0
+        while since_last_improvement < off:
+            since_last_improvement += 1    
+            best = Individual(deepcopy(self.genome), fitness)
+            best.mutate(nmutations)
+            best.compute_fitness()
+            if best.fitness > self.fitness:
+                self.genome = best.genome
+                self.fitness = best.fitness
+                since_last_improvement = 0     
+
 
 
 class Ga:
@@ -45,9 +58,21 @@ class Ga:
             cut = randint(0, 999) 
             new_individual = Individual(numpy.concatenate((parents[i * 2].genome[:cut], parents[i * 2 + 1].genome[cut:])), self.fitness)
             if random() < pm:
-                new_individual.mutate(self.N)
-            new_individual.compute_fitness()    
+                new_individual.mutate(self.N) 
+            new_individual.compute_fitness()
             self.population.append(new_individual)
+
+    def generate_offspring_1p(self, offspring_size: int, pm: float, tournament_size: int, use_hc = True):
+        parent = self.select_by_tournament(tournament_size)   
+        for i in range(offspring_size):
+            new_individual = Individual(deepcopy(parent.genome), self.fitness)
+            if use_hc:
+                new_individual.hillclimb(3, self.fitness, self.N) 
+            else: 
+                new_individual.mutate(self.N)      
+                new_individual.compute_fitness()
+            self.population.append(new_individual)
+
 
     def survival_selection(self, population_size: int):
         self.population.sort(key= lambda i: i.fitness, reverse=True)

@@ -162,3 +162,4 @@
 
 ### 30/11/23
  - working on lab9, still not working as a whole
+ - now it is working, but it's not a perfect boi, needs a lot of improvements 
