@@ -159,3 +159,6 @@
 
 ### 27/11/23
  - added lab9 folder and files, started working on them
+
+### 30/11/23
+ - working on lab9, still not working as a whole
