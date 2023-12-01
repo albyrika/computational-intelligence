@@ -162,4 +162,7 @@
 
 ### 30/11/23
  - working on lab9, still not working as a whole
- - now it is working, but it's not a perfect boi, needs a lot of improvements 
+ - now it is working, but it's not a perfect boi, needs a lot of improvements
+
+### 1/12/23
+ - strated working on a different EA for lab 9, let's see if it can do better

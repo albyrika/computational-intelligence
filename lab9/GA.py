@@ -73,7 +73,6 @@ class Ga:
                 new_individual.compute_fitness()
             self.population.append(new_individual)
 
-
     def survival_selection(self, population_size: int):
         self.population.sort(key= lambda i: i.fitness, reverse=True)
         self.population = self.population[0:population_size]        
