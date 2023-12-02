@@ -165,4 +165,7 @@
  - now it is working, but it's not a perfect boi, needs a lot of improvements
 
 ### 1/12/23
- - strated working on a different EA for lab 9, let's see if it can do better
+ - started working on a different EA (ES.py) for lab 9, let's see if it can do better
+
+### 2/12/23
+ - again ES.py, made it almost work
