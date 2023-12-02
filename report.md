@@ -169,3 +169,7 @@
 
 ### 2/12/23
  - again ES.py, made it almost work
+ - ok, now it works (wasn't easy)
+ - the documentation is now more readable
+ - the notebook is less messy
+ - the README is filled

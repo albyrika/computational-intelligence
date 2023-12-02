@@ -63,6 +63,8 @@ class Ga:
             self.population.append(new_individual)
 
     def generate_offspring_1p(self, offspring_size: int, pm: float, tournament_size: int, use_hc = True):
+        """generates offspring using only 1 parent
+           if use_hc is True the offspring will hillclimb for a bit before being evaluated"""
         parent = self.select_by_tournament(tournament_size)   
         for i in range(offspring_size):
             new_individual = Individual(deepcopy(parent.genome), self.fitness)
@@ -74,5 +76,6 @@ class Ga:
             self.population.append(new_individual)
 
     def survival_selection(self, population_size: int):
+        """cut the population"""
         self.population.sort(key= lambda i: i.fitness, reverse=True)
         self.population = self.population[0:population_size]        
