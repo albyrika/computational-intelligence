@@ -49,9 +49,9 @@ class Es:
     def generate_offspring(self) -> None:
         """generates offspring and cuts it, if the optimal is reached returns the individual"""
         for _ in range(self.offspring_size):
-            if numpy.random.random() < self.Pm:
+            if numpy.random.random() < self.Pm:     #do mutation
                 hc = Hillclimber(numpy.array(self.parent.genome), self.parent.fitness_function, deepcopy(self.parent.nloci), deepcopy(self.parent.sigma), deepcopy(self.parent.param_threshold))
-            else: 
+            else:                                   #do xover selecting 2 random different parents
                 index = numpy.random.randint(0, self.population_size-1)
                 parents = self.population[index:index+2]
                 cut = numpy.random.randint(0, 999) 

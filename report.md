@@ -173,3 +173,7 @@
  - the documentation is now more readable
  - the notebook is less messy
  - the README is filled
+
+### 8/12/23
+ - reviewd lab9 of Luca Faieta
+ - improved docs of my lab9 based on the reviews received
