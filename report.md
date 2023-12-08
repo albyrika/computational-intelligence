@@ -175,5 +175,6 @@
  - the README is filled
 
 ### 8/12/23
- - reviewd lab9 of Luca Faieta
+ - reviewed lab9 of Luca Faieta
  - improved docs of my lab9 based on the reviews received
+ - posted review for lab9 of Luca Catalano, took a while to read and run all the files
