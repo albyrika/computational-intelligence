@@ -36,11 +36,11 @@ class Game(object):
         if pretty == False:
             print(self._board)
         else:
-            print(' -------------') 
-            f_print = lambda row: ' |' + ''.join([' ⋅' if n == -1 else ' X' if n == 0 else ' O' for n in row]) + ' |'
+            print(' --------------') 
+            f_print = lambda row: ' | ' + ''.join(['⬜️' if n == -1 else '❌' if n == 0 else '⭕️' for n in row]) + ' |'
             for row in self._board.tolist():
                 print(f_print(row)) 
-            print(' -------------')       
+            print(' --------------')       
 
     def check_winner(self) -> int:
         '''Check the winner. Returns the player ID of the winner if any, otherwise returns -1'''

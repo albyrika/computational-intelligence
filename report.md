@@ -178,3 +178,7 @@
  - reviewed lab9 of Luca Faieta
  - improved docs of my lab9 based on the reviews received
  - posted review for lab9 of Luca Catalano, took a while to read and run all the files
+
+### 14/12/23
+ - working on lab10
+ - lab10 structure is done, now let's make some qlearning
