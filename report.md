@@ -182,3 +182,4 @@
 ### 14/12/23
  - working on lab10
  - lab10 structure is done, now let's make some qlearning
+ - qlearning done, but still not performing so well

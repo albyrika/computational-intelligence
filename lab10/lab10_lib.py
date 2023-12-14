@@ -2,8 +2,11 @@ class Move: tuple[int, int]
 
 class Board():
     """Board object to manage TicTacToe, where the players are 1 and -1"""
-    def __init__(self) -> None:
-        self.state = ((0, 0, 0), (0, 0, 0), (0, 0, 0))  
+    def __init__(self, state = None) -> None:
+        if state == None:
+            self.state = ((0, 0, 0), (0, 0, 0), (0, 0, 0))  
+        else:
+            self.state = state    
 
     def winner(self) -> int | None:
         """returns the number of winning player, else 0"""
@@ -45,7 +48,7 @@ class Board():
         return str
 
 
-def play_games(board: Board, agent, opponents: list, n_games = 100):
+def play_games(board: Board, agent, opponents: list, n_games = 100, logging = False, toy_games = False, print_board = False):
     """make agent play against opponents, n games against each"""
     nwins = 0
     nlost = 0
@@ -54,17 +57,23 @@ def play_games(board: Board, agent, opponents: list, n_games = 100):
         for i in range(n_games):
             board = Board()
             current_player = -1 + 2 * (i%2)                         #determine who is starting, 1 or -1
-            for i in range(5):                                      #play 5 times before starting the checks every move
-                move: Move = players[current_player].generate_move(board)
+            for i in range(5):                                      #play 5 times before starting to check at every move
+                move = players[current_player].generate_move(board)
                 board.update(move, current_player)
                 current_player *= -1
             while board.winner() == None:
-                move: Move = players[current_player].generate_move(board)
+                move = players[current_player].generate_move(board)
                 board.update(move, current_player)
                 current_player *= -1
-            winner = board.winner()     
-            agent.feedback(won = winner)
+            winner = board.winner() 
+            if not toy_games:    
+                agent.feedback(won = winner)
             if winner == 1:
                 nwins += 1
             elif winner == -1:
                 nlost += 1
+            if print_board:
+                print(board)    
+    if logging:        
+        print(f'won: {nwins}\nlost: {nlost}\ndraw: {n_games * len(opponents) - nwins - nlost}\n')        
+            
