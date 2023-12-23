@@ -185,6 +185,6 @@
  - qlearning done, but still not performing so well
 
 ### 23/12/23
- - improved qlearning, theoretically
+ - improved qlearning, theoretically at least (in practice it is almost equivalent)
  - improved readability and docs
  - compiled readme for lab10
