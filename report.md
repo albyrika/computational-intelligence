@@ -183,3 +183,8 @@
  - working on lab10
  - lab10 structure is done, now let's make some qlearning
  - qlearning done, but still not performing so well
+
+### 23/12/23
+ - improved qlearning, theoretically
+ - improved readability and docs
+ - compiled readme for lab10

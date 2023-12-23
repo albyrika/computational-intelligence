@@ -49,7 +49,9 @@ class Board():
 
 
 def play_games(board: Board, agent, opponents: list, n_games = 100, logging = False, toy_games = False, print_board = False):
-    """make agent play against opponents, n games against each"""
+    """make agent play against opponents, n games against each
+        logging = True -> prints results
+        toy_games = True -> does not give feedback to agent"""
     nwins = 0
     nlost = 0
     for o in opponents:
