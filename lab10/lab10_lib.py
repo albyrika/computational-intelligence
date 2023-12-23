@@ -38,6 +38,15 @@ class Board():
         board_copy[row][col] = player
         self.state = tuple(tuple(lst) for lst in board_copy)
         return self.state
+    
+    def possible_moves(self) -> list[Move]:
+        """returns a list of possible moves (that is, the blank squares)"""
+        possible = []
+        for i in range(3):
+            for j in range(3):
+                if self.state[i][j] == 0:
+                    possible.append((i,j))
+        return possible 
 
     def __str__(self) -> str:
         str = ''
@@ -50,12 +59,13 @@ class Board():
 
 def play_games(board: Board, agent, opponents: list, n_games = 100, logging = False, toy_games = False, print_board = False):
     """make agent play against opponents, n games against each
+        gives feedback to the agent (who won a game after each one) 
         logging = True -> prints results
         toy_games = True -> does not give feedback to agent"""
     nwins = 0
     nlost = 0
     for o in opponents:
-        players = (0, agent, o)                                     #agent is player 1, X; opponent is -1, O
+        players = (0, agent, o)                                     #agent is player 1, X; opponent is -1, O; 0 is no player (never happens)
         for i in range(n_games):
             board = Board()
             current_player = -1 + 2 * (i%2)                         #determine who is starting, 1 or -1
