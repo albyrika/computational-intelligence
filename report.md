@@ -188,3 +188,20 @@
  - improved qlearning, theoretically at least (in practice it is almost equivalent)
  - improved readability and docs
  - compiled readme for lab10
+ 
+### 28/12/23
+ - reviewed lab10 of Nicolo' Iacobone
+ - reviewed lab10 of Arturo Adelfio:
+ - - ## What I liked
+   - honesty: it is clear that it was not completed because of time constraints
+   - code is readable enough
+   - the agent uses q-learning with an array of qualities (one q for each move) for each state of the board (key)
+   - the code skeleton looks very promising
+
+   - ## What can be improved
+   - the code is not finished, so i will leave some suggestions:
+   - add other fixed agents to play against
+   - improve documentation (i find docstrings very useful) and a readme file with a summary of your work
+   - in the ```train()``` function add some args to tweak the different parameters, like in the ```game()``` function
+   - improve the visual representation of the qtable
+   - optionally, it would be nice to also be able to play against the agent
