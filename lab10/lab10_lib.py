@@ -9,7 +9,7 @@ class Board():
             self.state = state    
 
     def winner(self) -> int | None:
-        """returns the number of winning player, else 0"""
+        """returns the number of winning player, 0 if it is a draw, else None if the match is still open"""
         sd1, sd2 = 0, 0
         for i in range(3):          #check cols, rows and diags: the abs(sum) must be 3 in order to have a winner 
             sc, sr = 0, 0

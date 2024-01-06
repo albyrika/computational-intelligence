@@ -129,79 +129,394 @@
  ```
 
 ### 6/11/23
- - working on nim game, first need to understand how it works
+ - working on nim game (lab2), first need to understand how it works
 
 ### 7/11/23
- - added a tweak to last hallowen cahllenge solution
- - works by picking a minimum number of good sets
+ - added a tweak to last hallowen challenge solution:
+ - works by picking by default a minimum number of good sets  
+   more specifically: if i have *N* elements in the most populated set, i will at least need *M/N* sets to cover *M* spots
    
 ### 9/11/23
  - lab2, finished making the adaptive class
- - made another optimal strategy (for real)
- - the evolution works like a charm
+ - made a real optimal strategy, `optimal_()`
+ - the adptive class works like a charm, this is the main feature:  
+   ```
+    #genome is a dictionary with scores, that are cast to a probability when we need to choose a strategy
+    self.genome = {real_optimal: 0, pure_random: 0, take_from_last: 0, take_from_first: 0, eleirbag: 0}
+
+    #called it stedev but is a variance
+    def mutate(self) -> None:
+        """randomly tweaks the genome of the object"""
+        for k in self.genome.keys():
+            self.genome[k] += np.random.normal(0, self.stdev) 
+            self.genome[k] = 0 if self.genome[k] < 0 else self.genome[k] 
+   ```
 
 ### 12/11/23
- - lab2, the optimal_ was not working every time, as pointed out by Ludovico Firio
- - implemented a real optimal strategy, following the one provided by Wikipedia
+ - lab2, the `optimal_()` was not working every time, as pointed out by Ludovico Fiorio, so:
+ - implemented a real optimal strategy, following the hints provided by Wikipedia:  
+   always try to leave the board in a state with nim-sum = 0, but, when the move would leave only 1-sized heaps, try to leave a odd number of such heaps
 
 ### 13/11/23
- - implemented a self-adaptive class (the variance is a mutable parameter)
+ - lab2, implemented a self-adaptive class (the variance is a mutable parameter):
+   ```
+    # similar to the one above, but self.stdev is a learnable parameter
+    def tweak(self) -> None:
+        """randomly tweaks the genome and stdev of the object"""
+        self.stdev *= np.exp((self.lr * np.random.normal(0, 1))) 
+        for k in self.genome.keys():
+            self.genome[k] += np.random.normal(0, self.stdev ** 2) 
+            self.genome[k] = 0 if self.genome[k] < 0 else self.genome[k] 
+   ```
  - removed unused code, put some better explainations in the markdown
 
 ### 16/11/23
- - so, looks like i was very confused about dynamic strategies and ES
- - implementing a working ES
+ - so, looks like i was very confused about dynamic strategies and ES:  
+   i implemented a dynamic strategy *(1 + LAMBDA)* that at least was working 
+ - lab2, implementing a working ES:
+   ```
+   #works by choosing a random parent and creating LAMBDA mutated copies 
+   for _ in tqdm(range(ITERATIONS)):
+        parent = deepcopy(offspring[math.floor(random.random() * MU)])
+        for i in range(LAMBDA):
+            offspring.append(deepcopy(adaptive_obj))
+            offspring[i + MU].mutate()
+            offspring[i + MU].setratio(getratio(offspring[i + MU], M_QUARTER))
+
+    offspring.sort(key= lambda a: a.ratio, reverse=True)
+    offspring = offspring[0 : MU]     
+   ``` 
  - also changed the getratio to be more general and play against different opponents (yanked the idea from the presentation in class)
  
  ### 22/11/23
-  - reviewed lab2 of Umberto Fontanazza and Ludovico Fiorio
-  - with Ludovico Fiorio, pointed out the non optimality of the optimal strategy proposed by the assistant
+  - reviewed lab2 of Umberto Fontanazza
+  - reviewed lab2 of Ludovico Fiorio
+  - with Ludovico Fiorio, pointed out the non optimality of the ```optimal()``` strategy proposed by the assistant
 
 ### 27/11/23
- - added lab9 folder and files, started working on them
+ - added lab9 folder and files, started working on them (just a skeleton code)
 
 ### 30/11/23
  - working on lab9, still not working as a whole
- - now it is working, but it's not a perfect boi, needs a lot of improvements
+ - now we have a working GA, but it's not perfect, needs a lot of improvements:
+  ```
+    import numpy
+    from copy import deepcopy
+    from random import random, randint, choices
+
+    class Individual:
+        def __init__(self, genome: numpy.array, fitness):
+            self.genome = genome
+            self.fitness_function = fitness
+            self.fitness = 0
+
+        def mutate(self, N: int) -> None:
+            """mutate N random bits in the sequence"""
+            for _ in range(N):
+                i = randint(0, 999)
+                self.genome[i] = 1 - self.genome[i]
+
+        def compute_fitness(self) -> None:
+            self.fitness = self.fitness_function(self.genome)
+
+        def hillclimb(self, off: int, fitness, nmutations: int):
+            """try to hill climb 1+1 for a while"""
+            since_last_improvement = 0
+            while since_last_improvement < off:
+                since_last_improvement += 1    
+                best = Individual(deepcopy(self.genome), fitness)
+                best.mutate(nmutations)
+                best.compute_fitness()
+                if best.fitness > self.fitness:
+                    self.genome = best.genome
+                    self.fitness = best.fitness
+                    since_last_improvement = 0     
+
+
+    class Ga:
+        def __init__(self, population_size: int, fitness, N: int):
+            self.population = []  
+            self.fitness = fitness
+            self.N = N
+            self.population_size = population_size
+            for _ in range(population_size):
+                i = Individual(numpy.array(choices([0, 1], k=1000)), self.fitness)
+                i.compute_fitness()
+                self.population.append(i) 
+
+        def select_by_tournament(self, tournament_size: int) -> Individual:
+            selected = []
+            for _ in range(tournament_size):
+                selected.append(self.population[randint(0, self.population_size - 1)])  
+            return max(selected, key = lambda a: a.fitness)  
+
+        def generate_offspring(self, offspring_size: int, pm: float, tournament_size: int):  
+            """selects parents using tournament size pm,
+                then generates offspring_size new individuals
+                that can mutate with probability pm"""
+            parents = [self.select_by_tournament(tournament_size) for _ in range(offspring_size * 2)]
+            for i in range(offspring_size):
+                cut = randint(0, 999) 
+                new_individual = Individual(numpy.concatenate((parents[i * 2].genome[:cut], parents[i * 2 + 1].genome[cut:])), self.fitness)
+                if random() < pm:
+                    new_individual.mutate(self.N) 
+                new_individual.compute_fitness()
+                self.population.append(new_individual)
+
+        def generate_offspring_1p(self, offspring_size: int, pm: float, tournament_size: int, use_hc = True):
+            """generates offspring using only 1 parent
+            if use_hc is True the offspring will hillclimb for a bit before being evaluated"""
+            parent = self.select_by_tournament(tournament_size)   
+            for i in range(offspring_size):
+                new_individual = Individual(deepcopy(parent.genome), self.fitness)
+                if use_hc:
+                    new_individual.hillclimb(3, self.fitness, self.N) 
+                else: 
+                    new_individual.mutate(self.N)      
+                    new_individual.compute_fitness()
+                self.population.append(new_individual)
+
+        def survival_selection(self, population_size: int):
+            """cut the population"""
+            self.population.sort(key= lambda i: i.fitness, reverse=True)
+            self.population = self.population[0:population_size]        
+  ``` 
+  - the results are: 
+  ```
+    1 -> 91.90%, used 30184 calls
+    2 -> 47.79%, used 31563 calls
+    5 -> 19.69%, used 31576 calls
+    10 -> 14.42%, used 33319 calls
+  ``` 
 
 ### 1/12/23
  - started working on a different EA (ES.py) for lab 9, let's see if it can do better
+ - decided to give this strategy (ES with self-learnable parameters) a shot, as it was good with lab 2
 
 ### 2/12/23
- - again ES.py, made it almost work
- - ok, now it works (wasn't easy)
+ - again ES.py, made it almost work, noticed that even without HillClimbing it gives same results
+ - ok, now it works (wasn't easy):
+ ```
+    class Hillclimber:
+        '''basic individual of the ES startegy'''
+
+        def __init__(self, genome: numpy.array, fitness, nloci: int, sigma: float, param_threshold: float) -> None:
+            """nloci is number of initial muattaions
+            param_threshold is the fitness threshold [0,1] after which the exploration slows down"""
+            self.genome = genome
+            self.fitness_function = fitness
+            self.fitness = 0
+            self.p1 = 0.5                               
+            self.nloci = nloci
+            self.sigma = sigma
+            self.tau = 1 / 32                       #used to self adapt
+            self.param_threshold = param_threshold
+
+        def mutate(self, parent_fitness: float) -> None:
+            """mutates sigma -> nloci and p1 -> genome"""
+            if parent_fitness < self.param_threshold:
+                self.sigma *= numpy.e **(self.tau * numpy.random.normal(0, 1))
+                self.nloci *= math.ceil(numpy.random.normal(1, self.sigma))                       #modify to be proportional to distance ?
+                self.nloci = 1 if self.nloci < 1 else self.nloci
+                self.p1 = numpy.random.normal(0.5, self.sigma)                                    
+                self.p1 = 1 if self.p1 > 1 else (0 if self.p1 < 0 else self.p1)                   #keep it a probability 
+            #mutate the genome  
+            start_i = numpy.random.randint(0, 1000)  
+            for i in range(self.nloci):
+                self.genome[(start_i + i) % 1000] = 1 if numpy.random.random() <= self.p1 else 0
+
+        def compute_fitness(self) -> None:
+            self.fitness = self.fitness_function(self.genome)
+
+
+    class Es:
+        def __init__(self, population_size: int, offspring_size: int, population: list[Hillclimber], Pm: float) -> None:
+            """Pm is the probability of mutation vs xover, parent is used for mutation"""
+            self.population_size = population_size if population_size < offspring_size else offspring_size
+            self.offspring_size = offspring_size
+            self.population = population
+            self.Pm = Pm
+            self.parent = self.population[numpy.random.randint(0, self.population_size)]
+            for i in range(population_size):
+                self.population[i].compute_fitness()
+
+        def generate_offspring(self) -> None:
+            """generates offspring and cuts it, if the optimal is reached returns the individual"""
+            for _ in range(self.offspring_size):
+                if numpy.random.random() < self.Pm:     #do mutation
+                    hc = Hillclimber(numpy.array(self.parent.genome), self.parent.fitness_function, deepcopy(self.parent.nloci), deepcopy(self.parent.sigma), deepcopy(self.parent.param_threshold))
+                else:                                   #do xover selecting 2 random different parents
+                    index = numpy.random.randint(0, self.population_size-1)
+                    parents = self.population[index:index+2]
+                    cut = numpy.random.randint(0, 999) 
+                    hc = Hillclimber(numpy.concatenate((parents[0].genome[:cut], parents[1].genome[cut:])), self.parent.fitness_function, deepcopy(parents[numpy.random.randint(0,2)].nloci), deepcopy(parents[numpy.random.randint(0,2)].sigma), deepcopy(parents[numpy.random.randint(0,2)].param_threshold))  
+                hc.mutate(self.parent.fitness)
+                hc.compute_fitness()
+                self.population.append(hc)    
+            self.population.sort(key = lambda hc: hc.fitness, reverse = True)  
+            if self.population[0].fitness == 1.0:
+                return self.population[0]  
+            self.population = self.population[0 : self.population_size]
+            self.parent = self.population[numpy.random.randint(0, self.population_size)]
+            return False
+ ``` 
+ - results:
+ ```
+    # problem_istance -> fitness, used ncalls calls
+    # sigma is the stdev
+    # nloci is the number of mutated loci in a mutation
+    # p1 is the probability of a point mutation to yeld a 1
+
+    1 -> 100.00%, used 65 calls
+    sigma: 0.9702605052368167
+    nloci: 1200
+    p1:  1 
+
+    2 -> 100.00%, used 65 calls
+    sigma: 0.9366349541677955
+    nloci: 1200
+    p1:  1 
+
+    5 -> 100.00%, used 45 calls
+    sigma: 1.0096446759489974
+    nloci: 900
+    p1:  1 
+
+    10 -> 100.00%, used 305 calls
+    sigma: 0.9759283578258094
+    nloci: 1600
+    p1:  1 
+ ``` 
  - the documentation is now more readable
  - the notebook is less messy
  - the README is filled
 
 ### 8/12/23
  - reviewed lab9 of Luca Faieta
- - improved docs of my lab9 based on the reviews received
- - posted review for lab9 of Luca Catalano, took a while to read and run all the files
+ - improved docs (mainly readme, but also docstrings) of my lab9 based on the reviews received
+ - posted review for lab9 of Luca Catalano (took a while to read and run all the files)
 
 ### 14/12/23
  - working on lab10
- - lab10 structure is done, now let's make some qlearning
- - qlearning done, but still not performing so well
+ - lab10 structure is done, now let's make some qlearning:  
+   we feature a random agent, an expert agent (blocks winning moves), and a Board class
+ - this is ```the play_games()``` method used throughout the program  
+   ```
+    def play_games(board: Board, agent, opponents: list, n_games = 100, logging = False, toy_games = False, print_board = False):
+        """make agent play against opponents, n games against each
+            gives feedback to the agent (who won a game after each one) 
+            logging = True -> prints results
+            toy_games = True -> does not give feedback to agent"""
+        nwins = 0
+        nlost = 0
+        for o in opponents:
+            players = (0, agent, o)                                     #agent is player 1, X; opponent is -1, O; 0 is no player (never happens)
+            for i in range(n_games):
+                board = Board()
+                current_player = -1 + 2 * (i%2)                         #determine who is starting, 1 or -1
+                for i in range(5):                                      #play 5 times before starting to check at every move
+                    move = players[current_player].generate_move(board)
+                    board.update(move, current_player)
+                    current_player *= -1
+                while board.winner() == None:
+                    move = players[current_player].generate_move(board)
+                    board.update(move, current_player)
+                    current_player *= -1
+                winner = board.winner() 
+                if not toy_games:    
+                    agent.feedback(won = winner)
+                if winner == 1:
+                    nwins += 1
+                elif winner == -1:
+                    nlost += 1
+                if print_board:
+                    print(board)    
+        if logging:        
+            print(f'won: {nwins}\nlost: {nlost}\ndraw: {n_games * len(opponents) - nwins - nlost}\n')        
+   ```  
+ - qlearning almost done, still not performing so well
 
 ### 23/12/23
- - improved qlearning, theoretically at least (in practice it is almost equivalent)
+ - fixed and improved qlearning, theoretically at least (in practice it gets a biiit better)
+ ```
+    class LearningAgent():
+    """learns how to play by playing a lot of games"""
+        def __init__(self) -> None:
+            self.qtable = defaultdict(float)
+            self.index = 0 
+            self.trajectory = [] 
+            self.epsilon = 0.1                      #probability to make a random move
+            self.lr = 0.5                           #learning rate
+            self.gamma = 0.8                        #discount rate
+
+        def stop_exploring(self) -> None:
+            """sets epsilon to 0 to avoid random moves from now on"""
+            self.epsilon = 0.0
+
+        def garbage_collect(self) -> None:
+            """resets trajectory, use it to avoid memory leaks"""
+            self.trajectory = []    
+
+        def generate_move(self, board: ttt.Board) -> ttt.Move:
+            """generates a move using, if possible the best one"""
+            possible = board.possible_moves()
+            keys = [ (board.state, move) for move in possible ]             #generate all the possible keys = (state, action)
+            if len(keys) == 0 or rand.random() < self.epsilon:
+                return possible[rand.randint(0, len(possible)-1)]           #return a random move if no idea on what to do
+            vals = [ self.qtable[k] for k in keys ]
+            choice = keys[numpy.argmax(vals)]                               #choose the highest quality move
+            self.trajectory.append(choice)                                  #save the move for later
+            return choice[1]
+        
+        def feedback(self, won: int) -> None:
+            """updates qtable and resets trajectory"""
+            won = [-1, 15, -5][won]      #draw, win, lose
+            i = 0
+            self.trajectory.reverse()
+            for c in self.trajectory:
+                maxq = 0
+                if i != 0:                                              #apply q-learning formula
+                    board = ttt.Board(self.trajectory[i-1][0])          #take the board after applying the move
+                    possible = board.possible_moves()                   #compute all the possible (state, action) to find the max
+                    keys = [ (board.state, move) for move in possible ]
+                    maxq = max([self.qtable[k] for k in keys])
+                self.qtable[c] = (1 - self.lr) * self.qtable[c] + self.lr * (won + self.gamma * maxq)   #update qtable
+                i += 1
+            self.trajectory = []                                        #reset trajectory     
+ ``` 
+ - results (playing against expert system and random): 
+ ```
+    Before learning:
+    won: 73
+    lost: 97
+    draw: 30
+
+    After learning:
+    won: 139
+    lost: 28
+    draw: 33
+ ``` 
  - improved readability and docs
- - compiled readme for lab10
+ - compiled readme for lab10  
  
 ### 28/12/23
  - reviewed lab10 of Nicolo' Iacobone
- - reviewed lab10 of Arturo Adelfio:
- - - ## What I liked
+ - reviewed lab10 of Arturo Adelfio:  
+   #### What I liked
    - honesty: it is clear that it was not completed because of time constraints
    - code is readable enough
    - the agent uses q-learning with an array of qualities (one q for each move) for each state of the board (key)
    - the code skeleton looks very promising
 
-   - ## What can be improved
+   #### What can be improved
    - the code is not finished, so i will leave some suggestions:
    - add other fixed agents to play against
    - improve documentation (i find docstrings very useful) and a readme file with a summary of your work
    - in the ```train()``` function add some args to tweak the different parameters, like in the ```game()``` function
    - improve the visual representation of the qtable
-   - optionally, it would be nice to also be able to play against the agent
+   - optionally, it would be nice to also be able to play against the agent 
+
+### 6/01/24
+ - first note of the new year!
+ - improving report with pieces of code, documents, results, readmes, and reviews
+ - fixing typos en passant (there are a lot of them)
