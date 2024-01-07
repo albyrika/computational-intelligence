@@ -393,7 +393,7 @@
  ```
     # problem_istance -> fitness, used ncalls calls
     # sigma is the stdev
-    # nloci is the number of mutated loci in a mutation
+    # nloci is the number of mutated loci in a mutation (represents mutation 'strenght')
     # p1 is the probability of a point mutation to yeld a 1
 
     1 -> 100.00%, used 65 calls
