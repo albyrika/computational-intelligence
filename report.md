@@ -617,3 +617,8 @@
  - first note of the new year!
  - improving report with pieces of code, docs, results, readmes, and reviews
  - fixing typos en passant (there are a lot of them lol)
+
+### 8/01/24
+ - working on the exam with Ludovico Fiorio and Umberto Fontanazza
+ - we had a meeting
+ - now implementing some exploration in the agent
