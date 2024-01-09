@@ -622,3 +622,6 @@
  - working on the exam with Ludovico Fiorio and Umberto Fontanazza
  - we had a meeting
  - now implementing some exploration in the agent
+
+### 9/01/24
+ - still implementing depth-limited minmax for the quixo agent
