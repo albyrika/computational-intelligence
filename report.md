@@ -622,6 +622,16 @@
  - working on the exam with Ludovico Fiorio and Umberto Fontanazza
  - we had a meeting
  - now implementing some exploration in the agent
+ - The basic structure is:
+ - - an agent using depth-limited minimax with alpha-beta pruning
+ - - the 'fitness' of a leaf is evaluated by an Oracle
+ - - the Oracle consults a list of Advisors and has a set of weights (1 w for each advisor)
+ - - the Advisors implement an hardcoded rule (e.g. the maximum row length, the number of occupied places, etc...)
+ - - after the match, the Agent tells the Oracle the outcome of the match, with all the decisions taken
+ - - the Oracle adjusts its weights (learns) based on the outcome
 
 ### 9/01/24
  - still implementing depth-limited minmax for the quixo agent
+
+### 10/12/24
+ - minmax with alpha-beta pruning done and corrected, added some tests for the agent
