@@ -628,10 +628,14 @@
  - - the Oracle consults a list of Advisors and has a set of weights (1 w for each advisor)
  - - the Advisors implement an hardcoded rule (e.g. the maximum row length, the number of occupied places, etc...)
  - - after the match, the Agent tells the Oracle the outcome of the match, with all the decisions taken
- - - the Oracle adjusts its weights (learns) based on the outcome
+ - - the Oracle adjusts its weights (learns) based on the outcome   
 
 ### 9/01/24
- - still implementing depth-limited minmax for the quixo agent
+ - still implementing depth-limited minmax for the quixo agent   
 
 ### 10/12/24
- - minmax with alpha-beta pruning done and corrected, added some tests for the agent
+ - minmax with alpha-beta pruning done and corrected, added some tests for the agent   
+
+### 11/1/24
+ - with Umberto Fontanazza, fixed the proposed __slide function in game.py
+ - working on early stopping of the minmax algorithm when a terminal state (game end) is found
