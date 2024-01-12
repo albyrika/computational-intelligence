@@ -639,3 +639,7 @@
 ### 11/1/24
  - with Umberto Fontanazza, fixed the proposed __slide function in game.py
  - working on early stopping of the minmax algorithm when a terminal state (game end) is found
+
+### 12/1/24
+ - guess what, working again, fixed some wrong integrations
+ - added some tests
