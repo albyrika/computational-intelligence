@@ -643,3 +643,10 @@
 ### 12/1/24
  - guess what, working again, fixed some wrong integrations
  - added some tests
+
+### 13/1/24
+ - project call with the collaborators
+ - fixed agent (game lib misunderstanding)
+ - added tests
+ - added a better simple agent (Cleverplayer)
+ - ran first tests
