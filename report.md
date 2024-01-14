@@ -650,3 +650,7 @@
  - added tests
  - added a better simple agent (Cleverplayer)
  - ran first tests
+
+### 14/1/24
+ - refactoring exam project
+ - added manual player
