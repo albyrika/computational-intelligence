@@ -654,3 +654,9 @@
 ### 14/1/24
  - refactoring exam project
  - added manual player
+
+### 16/1/24
+ - working with Umberto Fontanazza to fix some previous bugs, refactoring
+
+### 17/1/24
+ - finally fixed a minimax bug, tested some more
