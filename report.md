@@ -660,3 +660,6 @@
 
 ### 17/1/24
  - finally fixed a minimax bug, tested some more
+
+### 18/1/24
+ -refactoring agent.py, multithreading now in a wrapper
