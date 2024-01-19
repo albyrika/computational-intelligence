@@ -665,3 +665,7 @@
  - refactoring agent.py, multithreading now in a wrapper
  - unified min and max functions
  - did some testing against another minmax player, woks as expected
+
+### 19/1/24
+ - reinventing a way to compute useful stats (simpler than using advisors)
+ - this should help with computation speed
