@@ -669,3 +669,7 @@
 ### 19/1/24
  - reinventing a way to compute useful stats (simpler than using advisors)
  - this should help with computation speed
+
+### 21/1/24
+ - finally we should have a working version using stats
+ - it's not that much faster, but it gets really good at winning, so we'll take it
