@@ -673,3 +673,8 @@
 ### 21/1/24
  - finally we should have a working version using stats
  - it's not that much faster, but it gets really good at winning, so we'll take it
+
+### 22/1/24
+ - updated quixo readme with some instructions and considerations
+ - improved manual player, now the moves are more readable
+ - added a __main__ in the lib folder so that the project can be run
